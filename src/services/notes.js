@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/notes'
+console.log('process.env.REACT_APP_BACKEND_URL_BASE', process.env.BACKEND_URL_BASE)
+
+const baseUrl = `${process.env.REACT_APP_BACKEND_URL_BASE}/notes`
 
 const getData = response => response.data
 
