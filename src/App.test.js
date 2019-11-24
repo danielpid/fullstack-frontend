@@ -1,9 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from 'react'
+import { render,  waitForElement } from '@testing-library/react'
+jest.mock('./services/notes')
+import App from './App'
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
-});
+describe('<App />', () => {
+  test('renders all notes it gets from backend', async () => {
+    const component = render(
+      <App />
+    )
+    component.rerender(<App />)
+    await waitForElement(
+      () => component.container.querySelector('.note')
+    )
+
+    const notes = component.container.querySelectorAll('.note')
+    expect(notes.length).toBe(3)
+
+    expect(component.container).toHaveTextContent(
+      'HTML is easy'
+    )
+    expect(component.container).toHaveTextContent(
+      'Browser can execute only javascript'
+    )
+    expect(component.container).toHaveTextContent(
+      'The most important methods of HTTP are GET and POST'
+    )
+  })
+})
